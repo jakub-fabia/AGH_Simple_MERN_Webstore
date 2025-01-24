@@ -1,1 +1,1 @@
-# AGH_Simple_MERN_Webstore
+# AGH_Simple_Webstore_Project
