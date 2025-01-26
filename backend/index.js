@@ -1,8 +1,9 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser"
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const authRouter = require("./routes/auth-routes.js");
 
 dotenv.config()
 
@@ -11,7 +12,7 @@ mongoose
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.log(error));
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 const app = express();
 
 app.use(
@@ -31,6 +32,7 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+app.use('/api/auth', authRouter);
 
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
