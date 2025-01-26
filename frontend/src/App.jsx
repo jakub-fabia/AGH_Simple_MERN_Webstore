@@ -1,5 +1,63 @@
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {checkAuth} from "./redux/authSlice/index.js";
+import CheckAuth from "./components/auth/checkAuth.jsx";
+import {Route, Routes} from "react-router-dom";
+import RegisterPage from "./pages/auth/RegisterPage.jsx";
+import LoginPage from "./pages/auth/LoginPage.jsx";
+import AuthLayout from "./components/layouts/AuthLayout.jsx";
+import UnauthorizedPage from "./pages/misc/UnauthorizedPage.jsx";
+import NotFound from "./pages/misc/NotFound.jsx";
+import AdminLayout from "./components/layouts/AdminLayout.jsx";
+import ShopLayout from "./components/layouts/ShopLayout.jsx";
+import ShopHome from "./pages/shop/ShopHome.jsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+
+
 function App() {
-  return <div></div>
+    const {user, isAuthenticated, isLoading} = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {dispatch(checkAuth());}, [dispatch]);
+
+    if (isLoading) {
+        return <div>Is Loading...</div>
+    }
+
+    return (
+        <Routes>
+            <Route path="/" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}/>}/>
+            <Route path="/auth" element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                    <AuthLayout/>
+                </CheckAuth>
+                }
+            >
+                <Route path="login" element={<LoginPage/>}/>
+                <Route path="register" element={<RegisterPage/>}/>
+            </Route>
+            <Route path="/shop" element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                    <ShopLayout />
+                </CheckAuth>
+                }
+            >
+                <Route path="home" element={<ShopHome/>}/>
+                {/*Tutaj wszystkie podstrony sklepu*/}
+            </Route>
+            <Route path="/admin" element={
+                <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+                    <AdminLayout />
+                </CheckAuth>
+            }
+            >
+                <Route path="dashboard" element={<AdminDashboard />}/>
+                {/*Tutaj wszystkie podstrony admina*/}
+            </Route>
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
+            <Route path="*" element={<NotFound />} />
+        </Routes>
+    );
 }
 
 export default App
