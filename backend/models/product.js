@@ -25,6 +25,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    averageReview: {
+        type: Number,
+        required: true,
+    }
 }, {
     timestamps: true,
 });
