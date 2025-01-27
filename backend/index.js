@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const authRouter = require("./routes/auth-routes.js");
 const adminProductRouter = require("./routes/admin-product-routes.js");
 const adminOrdersRouter = require("./routes/admin-orders-routes.js");
+const adminReviewsRouter = require("./routes/admin-reviews-routes.js");
 
 dotenv.config()
 
@@ -37,6 +38,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/admin/products', adminProductRouter)
 app.use('/api/admin/orders', adminOrdersRouter)
+app.use('/api/admin/reviews', adminReviewsRouter)
 
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
