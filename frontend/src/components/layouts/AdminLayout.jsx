@@ -1,11 +1,19 @@
-import {Outlet} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 
 function AdminLayout() {
 	return (
 		<div>
-			<h1>Admin Layout</h1>
-			<div><Outlet/></div>
-		</div>)
+			<div>
+				<Link to="/admin/products/all">
+					<span>Products</span><br/>
+				</Link>
+				<Link to="/admin/dashboard">
+					<span>Dashboard</span><br/>
+				</Link>
+			</div>
+				<div><Outlet/></div>
+		</div>
+	)
 }
 
 export default AdminLayout;

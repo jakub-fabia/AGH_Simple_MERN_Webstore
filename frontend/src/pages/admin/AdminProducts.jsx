@@ -17,13 +17,14 @@ function AdminProducts(){
 	function handleDelete(productID) {
 		dispatch(deleteProduct(productID)).then((data) => {
 			if (data?.payload?.success) {
+				alert("Product deleted successfully");
 				dispatch(fetchAllProducts());
 			}
 		});
 	}
 
 	function handleEdit(productID) {
-		navigate(`edit/${productID}`);
+		navigate(`/admin/products/edit/${productID}`);
 	}
 
 	return (

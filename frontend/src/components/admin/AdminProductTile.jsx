@@ -1,8 +1,7 @@
 function AdminProductTile({ product, handleDelete, handleEdit }) {
 	return (
-		<div className="border rounded-lg shadow-lg p-4 w-64 flex flex-col">
-			{/* Product Image */}
-			<div className="h-48 w-full mb-4 bg-gray-200 flex items-center justify-center overflow-hidden">
+		<div>
+			<div>
 				<img
 					src={product.image}
 					alt={product.title}
@@ -10,18 +9,17 @@ function AdminProductTile({ product, handleDelete, handleEdit }) {
 				/>
 			</div>
 
-			{/* Product Details */}
 			<div className="flex flex-col space-y-2 mb-4">
 				<h2 className="text-lg font-bold truncate">{product.title}</h2>
 				<p className="text-gray-600 truncate">{product.description}</p>
 				<p className="text-gray-800 font-semibold">Category: {product.category}</p>
 				<p className="text-gray-800 font-semibold">Price: ${product.price}</p>
+				<p className="text-gray-800 font-semibold">Stars: {product.averageReview}</p>
 				<p className="text-gray-800 font-semibold">Stock: {product.stock}</p>
 			</div>
 
-			{/* Action Buttons */}
 			<div className="mt-auto flex space-x-2">
-				<button
+			<button
 					onClick={() => handleEdit(product?._id)}
 					className="flex-1 bg-blue-500 text-white rounded px-2 py-1 hover:bg-blue-600"
 				>

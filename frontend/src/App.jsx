@@ -16,6 +16,7 @@ import AdminSlice from "./redux/adminSlice/products/index.js";
 import AdminAddProduct from "./pages/admin/AdminAddProduct.jsx";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminEditProduct from "./pages/admin/AdminEditProduct.jsx";
+import AdminProductsLayout from "./components/layouts/AdminProductsLayout.jsx";
 
 
 function App() {
@@ -56,9 +57,11 @@ function App() {
             }
             >
                 <Route path="dashboard" element={<AdminDashboard />}/>
-                <Route path="products/add" element={<AdminAddProduct />}/> {/*to powinno być elementem strony /admin/products ale nie chciało mi się tego porządnie zakodzić, zostawiam bo działa*/}
-                <Route path="products" element={<AdminProducts />}/>
-                <Route path="products/edit/:id" element={<AdminEditProduct/>}/>
+                <Route path="products" element={<AdminProductsLayout />}>
+                    <Route path="add" element={<AdminAddProduct />}/> {/*to powinno być elementem strony /admin/products ale nie chciało mi się tego porządnie zakodzić, zostawiam bo działa*/}
+                    <Route path="all" element={<AdminProducts />}/>
+                    <Route path="edit/:id" element={<AdminEditProduct/>}/>
+                </Route>
             </Route>
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
             <Route path="*" element={<NotFound />} />
