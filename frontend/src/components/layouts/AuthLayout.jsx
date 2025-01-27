@@ -5,10 +5,10 @@ function AuthLayout() {
         <div>
             <h1>Auth Layout</h1>
             <div>
-                <Link to="/login">
+                <Link to="/auth/login">
                     <span>Login</span><br/>
                 </Link>
-                <Link to="/register">
+                <Link to="/auth/register">
                     <span>Register</span>
                 </Link>
             </div>
