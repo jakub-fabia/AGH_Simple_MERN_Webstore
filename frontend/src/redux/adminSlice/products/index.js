@@ -61,6 +61,16 @@ export const deleteProduct = createAsyncThunk(
 	}
 );
 
+export const fetchProduct = createAsyncThunk(
+	"/products/fetchProduct",
+	async (id) => {
+		const result = await axios.get(
+			`http://localhost:5000/api/admin/products/get/${id}`
+		);
+		return result?.data;
+	}
+);
+
 const AdminProductsSlice = createSlice({
 	name: "adminProducts",
 	initialState,
@@ -77,6 +87,18 @@ const AdminProductsSlice = createSlice({
 			.addCase(fetchAllProducts.rejected, (state) => {
 				state.isLoading = false;
 				state.productList = [];
+			})
+			.addCase(fetchProduct.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(fetchProduct.fulfilled, (state, action) => {
+				state.loading = false;
+				state.product = action.payload.data;
+			})
+			.addCase(fetchProduct.rejected, (state) => {
+				state.loading = false;
+				state.error = null;
 			});
 	},
 });

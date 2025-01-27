@@ -23,7 +23,6 @@ function AuthLogin() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
         dispatch(loginUser(formData)).then((data) => {
             alert(data?.payload?.message)
             if (data?.payload?.success) {
