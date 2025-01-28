@@ -9,6 +9,7 @@ const initialState = {
 export const addReview = createAsyncThunk(
 	"/order/addReview",
 	async (formdata) => {
+		console.log(formdata)
 		const response = await axios.post(
 			`http://localhost:5000/api/shop/review/add`,
 			formdata
@@ -25,10 +26,9 @@ export const getReviews = createAsyncThunk("/order/getReviews", async (id) => {
 	return response.data;
 });
 
-export const deleteReview = createAsyncThunk("/order/deleteReview", async (id) => {
-	const response = await axios.get(
-		`http://localhost:5000/api/shop/review/delete/${id}`
-	);
+export const deleteReview = createAsyncThunk("/order/deleteReview",
+	async (reviewId) => {
+		const response = await axios.delete(`http://localhost:5000/api/shop/review/delete/${reviewId}`);
 	return response.data;
 });
 
