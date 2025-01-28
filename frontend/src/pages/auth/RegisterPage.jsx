@@ -10,7 +10,6 @@ const initialState = {
 };
 
 function RegisterPage() {
-    console.log("register")
     const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
     const navigate = useNavigate();

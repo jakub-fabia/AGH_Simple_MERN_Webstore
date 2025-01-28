@@ -17,6 +17,9 @@ import AdminAddProduct from "./pages/admin/AdminAddProduct.jsx";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminEditProduct from "./pages/admin/AdminEditProduct.jsx";
 import AdminProductsLayout from "./components/layouts/AdminProductsLayout.jsx";
+import AdminOrders from "./pages/admin/AdminOrders.jsx";
+import AdminReviews from "./pages/admin/AdminReviews.jsx";
+import ShopProduct from "./pages/shop/ShopProduct.jsx";
 
 
 function App() {
@@ -48,6 +51,7 @@ function App() {
                 }
             >
                 <Route path="home" element={<ShopHome/>}/>
+                <Route path="product/:id" element={<ShopProduct />}/>
                 {/*Tutaj wszystkie podstrony sklepu*/}
             </Route>
             <Route path="/admin" element={
@@ -62,6 +66,8 @@ function App() {
                     <Route path="all" element={<AdminProducts />}/>
                     <Route path="edit/:id" element={<AdminEditProduct/>}/>
                 </Route>
+                <Route path="orders" element={<AdminOrders />}/>
+                <Route path="reviews" element={<AdminReviews />}/>
             </Route>
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
             <Route path="*" element={<NotFound />} />

@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {deleteProduct, editProduct, fetchAllProducts} from "../../redux/adminSlice/products/index.js";
+import {deleteProduct, fetchAllProducts} from "../../redux/adminSlice/products/index.js";
 import AdminProductTile from "../../components/admin/AdminProductTile.jsx";
 import {useNavigate} from "react-router-dom";
 

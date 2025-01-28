@@ -6,28 +6,16 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
+    name: String,
     address: {
-        city: {
-            type: String,
-            required: true,
-        },
         country: String,
-        state: String,
+        city: String,
         zipcode: String,
+        street: String,
+        house: String,
     },
-    phone: {
-        type: Number,
-        required: true,
-    },
-    products: [
+    phone: Number,
+    items: [
         {
             productId: {
                 type: mongoose.Schema.Types.ObjectId,

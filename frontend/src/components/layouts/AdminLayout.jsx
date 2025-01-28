@@ -1,6 +1,13 @@
 import {Link, Outlet} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {logoutUser} from "../../redux/authSlice/index.js";
 
 function AdminLayout() {
+	const dispatch = useDispatch();
+
+	function handleLogout() {
+		dispatch(logoutUser());
+	}
 	return (
 		<div>
 			<div>
@@ -10,6 +17,7 @@ function AdminLayout() {
 				<Link to="/admin/dashboard">
 					<span>Dashboard</span><br/>
 				</Link>
+				<button onClick={handleLogout}>Logout</button>
 			</div>
 				<div><Outlet/></div>
 		</div>
