@@ -4,7 +4,7 @@ const ProductReview = require("../../models/review");
 
 const addProductReview = async (req, res) => {
 	try {
-		const { productId, userId, userName, reviewMessage, reviewValue } =
+		const { productId, userId, username, reviewMessage, reviewValue } =
 			req.body;
 
 		const order = await Order.findOne({
@@ -34,7 +34,7 @@ const addProductReview = async (req, res) => {
 		const newReview = new ProductReview({
 			productId,
 			userId,
-			userName,
+			username,
 			reviewMessage,
 			reviewValue,
 		});
@@ -82,8 +82,8 @@ const getProductReviews = async (req, res) => {
 
 const deleteProductReview = async (req, res) => {
 	try {
-		const { productId, reviewId } = req.body;
-		const review = await ProductReview.findByIdAndDelete({ reviewId })
+		const { id } = req.params;
+		const review = await ProductReview.findByIdAndDelete(id)
 
 		if (!review) {
 			return res.status(400).json({
@@ -91,12 +91,15 @@ const deleteProductReview = async (req, res) => {
 				message: "The review does not exist!",
 			});
 		}
+		const productId = review.productId;
 		const reviews = await ProductReview.find({ productId });
 		const totalReviewsLength = reviews.length;
-		const averageReview =
-			reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
-			totalReviewsLength;
-
+		let averageReview = 0;
+		if (totalReviewsLength!==0){
+			averageReview =
+				reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
+				totalReviewsLength;
+		}
 		await Product.findByIdAndUpdate(productId, { averageReview });
 
 		res.status(200).json({

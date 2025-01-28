@@ -1,10 +1,10 @@
 const Cart = require("../../models/cart");
 const Product = require("../../models/product");
+const User = require("../../models/user");
 
 const addToCart = async (req, res) => {
 	try {
 		const { userId, productId, quantity } = req.body;
-
 		if (!userId || !productId || quantity <= 0) {
 			return res.status(400).json({
 				success: false,
@@ -13,6 +13,7 @@ const addToCart = async (req, res) => {
 		}
 
 		const product = await Product.findById(productId);
+		const user = await User.findById(userId)
 
 		if (!product) {
 			return res.status(404).json({
@@ -21,10 +22,17 @@ const addToCart = async (req, res) => {
 			});
 		}
 
-		let cart = await Cart.findOne({ userId });
+		if (quantity > product.stock) {
+			return res.status(400).json({
+				success: false,
+				message: "Invalid data provided!",
+			});
+		}
+
+		let cart = await Cart.findOne({user: user});
 
 		if (!cart) {
-			cart = new Cart({ userId, items: [] });
+			cart = new Cart({ user, items: [] });
 		}
 
 		const findCurrentProductIndex = cart.items.findIndex(
@@ -35,6 +43,9 @@ const addToCart = async (req, res) => {
 			cart.items.push({ productId, quantity });
 		} else {
 			cart.items[findCurrentProductIndex].quantity += quantity;
+			if (cart.items[findCurrentProductIndex].quantity > product.stock) {
+				cart.items[findCurrentProductIndex].quantity = product.stock
+			}
 		}
 
 		await cart.save();
