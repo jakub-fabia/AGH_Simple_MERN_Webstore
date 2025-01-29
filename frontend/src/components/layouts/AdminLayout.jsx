@@ -1,6 +1,7 @@
-import {Link, Outlet} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {logoutUser} from "../../redux/authSlice/index.js";
+import { Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/authSlice/index.js";
+import NavbarAdmin from "../navbar/NavbarAdmin.jsx";
 
 function AdminLayout() {
 	const dispatch = useDispatch();
@@ -8,20 +9,21 @@ function AdminLayout() {
 	function handleLogout() {
 		dispatch(logoutUser());
 	}
+
 	return (
 		<div>
-			<div>
-				<Link to="/admin/products/all">
-					<span>Products</span><br/>
-				</Link>
-				<Link to="/admin/dashboard">
-					<span>Dashboard</span><br/>
-				</Link>
-				<button onClick={handleLogout}>Logout</button>
+			<NavbarAdmin />
+			<div style={styles.content}>
+				<Outlet />
 			</div>
-				<div><Outlet/></div>
 		</div>
-	)
+	);
 }
+
+const styles = {
+	content: {
+		padding: "20px",
+	},
+};
 
 export default AdminLayout;
