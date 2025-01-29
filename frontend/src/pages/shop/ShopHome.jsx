@@ -31,7 +31,7 @@ function ShopHome() {
 								{product.description}
 							</p>
 							<p className="text-lg font-bold text-green-600">
-								${product.price.toFixed(2)}
+								${product.price}
 							</p>
 							<p className="text-sm text-gray-500">
 								In Stock: {product.stock}

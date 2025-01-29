@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchProductDetails } from "../../redux/shopSlice/products/index.js";
 import { getReviews, addReview, deleteReview } from "../../redux/shopSlice/reviews/index.js";
 import {addToCart} from "../../redux/shopSlice/cart/index.js";
+import {capturePayment} from "../../redux/shopSlice/order/index.js";
 
 function ShopProduct() {
 	const { id } = useParams();
@@ -14,18 +15,22 @@ function ShopProduct() {
 	const [quantity, setQuantity] = useState(1);
 	const [reviewMessage, setReviewMessage] = useState("");
 	const [reviewValue, setReviewValue] = useState(5);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch(fetchProductDetails(id));
 		dispatch(getReviews(id));
 	}, [id, dispatch]);
 
-	const handleAddToCart = () => {
-		dispatch(addToCart({
-			userId: user?.id,
-			productId: productDetails?._id,
-			quantity: quantity,
-		}))
+	const handleAddToCart = async () => {
+		await dispatch(
+			addToCart({
+				userId: user?.id,
+				productId: productDetails?._id,
+				quantity: quantity,
+			})
+		).unwrap();
+		navigate('/shop/cart')
 	};
 
 	function handleAddReview() {
@@ -75,7 +80,7 @@ function ShopProduct() {
 								{productDetails.description}
 							</p>
 							<p className="text-2xl font-semibold text-green-600 mb-4">
-								${productDetails.price.toFixed(2)}
+								${productDetails.price}
 							</p>
 							<p className="text-sm text-gray-500 mb-6">
 								Stock: {productDetails.stock}
