@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {fetchAllProducts, fetchProduct} from "../products/index.js";
 import axios from "axios";
 
 const initialState = {
