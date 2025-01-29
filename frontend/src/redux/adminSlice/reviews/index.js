@@ -13,7 +13,6 @@ export const fetchAllReviews = createAsyncThunk(
 		const result = await axios.get(
 			"http://localhost:5000/api/admin/reviews/get"
 		);
-
 		return result?.data;
 	}
 );

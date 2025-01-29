@@ -20,8 +20,8 @@ const addProductReview = async (req, res) => {
 		}
 
 		const checkExistingReview = await ProductReview.findOne({
-			productId,
-			userId,
+			productId: productId,
+			user: userId,
 		});
 
 		if (checkExistingReview) {
