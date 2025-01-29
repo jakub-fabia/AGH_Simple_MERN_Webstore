@@ -12,7 +12,6 @@ import AdminLayout from "./components/layouts/AdminLayout.jsx";
 import ShopLayout from "./components/layouts/ShopLayout.jsx";
 import ShopHome from "./pages/shop/ShopHome.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
-import AdminSlice from "./redux/adminSlice/products/index.js";
 import AdminAddProduct from "./pages/admin/AdminAddProduct.jsx";
 import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminEditProduct from "./pages/admin/AdminEditProduct.jsx";
@@ -20,6 +19,9 @@ import AdminProductsLayout from "./components/layouts/AdminProductsLayout.jsx";
 import AdminOrders from "./pages/admin/AdminOrders.jsx";
 import AdminReviews from "./pages/admin/AdminReviews.jsx";
 import ShopProduct from "./pages/shop/ShopProduct.jsx";
+import Cart from "./pages/shop/Cart.jsx";
+import PlaceOrder from "./pages/shop/PlaceOrder.jsx";
+import PayForOrder from "./pages/shop/PayForOrder.jsx";
 
 
 function App() {
@@ -52,6 +54,9 @@ function App() {
             >
                 <Route path="home" element={<ShopHome/>}/>
                 <Route path="product/:id" element={<ShopProduct />}/>
+                <Route path="cart" element={<Cart />}/>
+                <Route path="order/new" element={<PlaceOrder />}/>
+                <Route path="order/payment/:id" element={<PayForOrder />}/>
                 {/*Tutaj wszystkie podstrony sklepu*/}
             </Route>
             <Route path="/admin" element={

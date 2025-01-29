@@ -1,4 +1,4 @@
-import {Outlet} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import {logoutUser} from "../../redux/authSlice/index.js";
 import {useDispatch} from "react-redux";
 
@@ -10,6 +10,12 @@ function ShopLayout() {
 	return (
 		<div>
 			<h1>Shop Layout</h1>
+			<Link to="/shop/home">
+				<span>Home</span>
+			</Link>
+			<Link to="/shop/cart">
+				<span>Cart</span>
+			</Link>
 			<button onClick={handleLogout}>Logout</button>
 			<div><Outlet/></div>
 		</div>)
