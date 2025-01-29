@@ -19,15 +19,11 @@ Projekt jest pełnoprawną aplikacją webową opartą na stosie **MERN** (**Mong
 
 Aby uruchomić aplikację lokalnie, wykonaj poniższe kroki:
 
-1. Zainstaluj zależności:
+1. Zainstaluj zależności backendu, frontendu oraz pomocnicze:
    ```bash
-   npm i
+   npm run install-all
    ```
-2. Zainstaluj zależności zarówno dla backendu, jak i frontendów:
-    ```bash
-    npm run install-all
-    ```
-3. Uruchom aplikację:
+2. Uruchom aplikację:
     ```bash
     npm run start
     ```
