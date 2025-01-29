@@ -15,6 +15,8 @@ function NavbarAdmin() {
                 <div style={styles.links}>
                     <Link to="/admin/dashboard" style={styles.link}>Dashboard</Link>
                     <Link to="/admin/products/all" style={styles.link}>Products</Link>
+                    <Link to="/admin/orders" style={styles.link}>Orders</Link>
+                    <Link to="/admin/reviews" style={styles.link}>Reviews</Link>
                     <button style={styles.logout} onClick={handleLogout}>Logout</button>
                 </div>
             </nav>
