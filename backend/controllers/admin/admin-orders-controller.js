@@ -2,7 +2,7 @@ const Order = require("../../models/order.js");
 
 const getAllOrdersOfAllUsers = async (req, res) => {
 	try {
-		const orders = await Order.find({});
+		const orders = await Order.find({}).populate("items.productId", "title image price");
 
 		if (!orders.length) {
 			return res.status(404).json({
