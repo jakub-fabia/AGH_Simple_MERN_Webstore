@@ -26,12 +26,22 @@ function AdminAddProduct() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		const isUnchanged = Object.entries(initialFormData).every(
+			([key, value]) => formData[key] === value
+		);
+
+		if (isUnchanged) {
+			alert("Please modify all fields before submitting.");
+			return;
+		}
+
 		dispatch(addNewProduct(formData)).then((data) => {
-			if (data?.payload?.success){
+			if (data?.payload?.success) {
 				alert("Product Added Successfully");
+				setFormData(initialFormData);
 			}
 		});
-		setFormData(initialFormData);
 	};
 
 	return (

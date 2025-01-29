@@ -35,12 +35,16 @@ const removeReview = async (req, res) => {
 				success: false,
 				message: "Review not found",
 			});
-
+		const productId = review.productId.toString();
+		console.log(productId);
 		const reviews = await Review.find({ productId });
 		const totalReviewsLength = reviews.length;
-		const averageReview =
-			reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
-			totalReviewsLength;
+		let averageReview = 0;
+		if (totalReviewsLength > 0) {
+			averageReview =
+				reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
+				totalReviewsLength;
+		}
 
 		await Product.findByIdAndUpdate(productId, { averageReview });
 
