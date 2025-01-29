@@ -1,51 +1,33 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { capturePayment, getOrderDetails } from "../../redux/shopSlice/order/index.js";
-import { fetchCartItems } from "../../redux/shopSlice/cart/index.js";
 
 function PayForOrder() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
-	const [orderDetails, setOrderDetails] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const { cartItems } = useSelector((state) => state.shopCart);
+	const { orderDetails, isLoading } = useSelector((state) => state.shopOrder);
 
 	useEffect(() => {
 		const fetchOrderDetails = async () => {
-			try {
-				setLoading(true);
-				const response = await dispatch(getOrderDetails(id)).unwrap();
-				setOrderDetails(response.data); // Assign response data to `orderDetails`
-			} catch (error) {
-				console.error("Error fetching order details:", error);
-			} finally {
-				setLoading(false);
-			}
+			dispatch(getOrderDetails(id))
 		};
 
-		// Fetch cart items and order details
-		if (user?.id) {
-			dispatch(fetchCartItems(user.id));
-		}
 		fetchOrderDetails();
 	}, [dispatch, id, user?.id]);
 
-	if (loading) {
-		return <div>Loading order details...</div>;
-	}
 
-	if (!orderDetails) {
-		return <div>Order not found.</div>;
-	}
-	console.log(orderDetails)
-	// Calculate the total sum
-	const totalSum = cartItems?.items?.reduce(
-		(acc, item) => acc + item.price * item.quantity,
+	const totalSum = orderDetails?.items?.reduce(
+		(acc, item) => acc + item.productId.price * item.quantity,
 		0
 	);
+	if (isLoading){
+		return <div>Loading...</div>
+	}else{
+		console.log(orderDetails);
+	}
 
 	const handlePay = async () => {
 		try {
@@ -70,17 +52,17 @@ function PayForOrder() {
 			<div>
 				<h2>Shipping Address</h2>
 				<p>
-					{orderDetails.name}
+					{orderDetails?.name}
 					<br />
-					{orderDetails.address.street} {orderDetails.address.house},<br />
-					{orderDetails.address.city}, {orderDetails.address.zipcode},<br />
-					{orderDetails.address.country}
+					{orderDetails?.address.street} {orderDetails?.address.house},<br />
+					{orderDetails?.address.city}, {orderDetails?.address.zipcode},<br />
+					{orderDetails?.address.country}
 				</p>
-				<p>Phone: {orderDetails.phone}</p>
+				<p>Phone: {orderDetails?.phone}</p>
 			</div>
 			<div>
 				<h2>Items</h2>
-				{cartItems.items.map((item, index) => (
+				{orderDetails?.items.map((item, index) => (
 					<div
 						key={index}
 						style={{
@@ -91,8 +73,8 @@ function PayForOrder() {
 					>
 						{/* Product Image */}
 						<img
-							src={item.image}
-							alt={item.title}
+							src={item.productId.image}
+							alt={item.productId.title}
 							style={{
 								width: "100px",
 								height: "100px",
@@ -102,11 +84,11 @@ function PayForOrder() {
 						/>
 						{/* Product Info */}
 						<div style={{ flex: 1 }}>
-							<h3 style={{ margin: "0" }}>{item.title}</h3>
-							<p style={{ margin: "0" }}>Price: ${item.price}</p>
+							<h3 style={{ margin: "0" }}>{item.productId.title}</h3>
+							<p style={{ margin: "0" }}>Price: ${item.productId.price}</p>
 							<p style={{ margin: "0" }}>Quantity: {item.quantity}</p>
 							<p style={{ margin: "0" }}>
-								Total Price: ${(item.price * item.quantity)}
+								Total Price: ${(item.productId.price * item.quantity)}
 							</p>
 						</div>
 					</div>

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { fetchProductDetails } from "../../redux/shopSlice/products/index.js";
 import { getReviews, addReview, deleteReview } from "../../redux/shopSlice/reviews/index.js";
 import {addToCart} from "../../redux/shopSlice/cart/index.js";
-import {capturePayment} from "../../redux/shopSlice/order/index.js";
 
 function ShopProduct() {
 	const { id } = useParams();

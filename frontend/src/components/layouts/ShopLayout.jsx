@@ -16,6 +16,9 @@ function ShopLayout() {
 			<Link to="/shop/cart">
 				<span>Cart</span>
 			</Link>
+			<Link to="/shop/orders">
+				<span>Orders</span>
+			</Link>
 			<button onClick={handleLogout}>Logout</button>
 			<div><Outlet/></div>
 		</div>)

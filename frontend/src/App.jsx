@@ -22,6 +22,8 @@ import ShopProduct from "./pages/shop/ShopProduct.jsx";
 import Cart from "./pages/shop/Cart.jsx";
 import PlaceOrder from "./pages/shop/PlaceOrder.jsx";
 import PayForOrder from "./pages/shop/PayForOrder.jsx";
+import UserOrders from "./pages/shop/UserOrders.jsx";
+import OrderDetails from "./pages/shop/OrderDetails.jsx";
 
 
 function App() {
@@ -57,6 +59,8 @@ function App() {
                 <Route path="cart" element={<Cart />}/>
                 <Route path="order/new" element={<PlaceOrder />}/>
                 <Route path="order/payment/:id" element={<PayForOrder />}/>
+                <Route path="orders" element={<UserOrders />}/>
+                <Route path="order/details/:id" element={<OrderDetails />}/>
                 {/*Tutaj wszystkie podstrony sklepu*/}
             </Route>
             <Route path="/admin" element={

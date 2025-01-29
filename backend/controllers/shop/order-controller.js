@@ -91,8 +91,7 @@ const getAllOrdersByUser = async (req, res) => {
 	try {
 		const { userId } = req.params;
 
-		const orders = await Order.find({ userId });
-
+		const orders = await Order.find({ user: userId });
 		if (!orders.length) {
 			return res.status(404).json({
 				success: false,
@@ -116,8 +115,10 @@ const getAllOrdersByUser = async (req, res) => {
 const getOrderDetails = async (req, res) => {
 	try {
 		const { id } = req.params;
+		console.log(id)
 
-		const order = await Order.findById(id);
+		const order = await Order.findById(req.params.id)
+			.populate("items.productId", "title image price");
 		if (!order) {
 			return res.status(404).json({
 				success: false,
