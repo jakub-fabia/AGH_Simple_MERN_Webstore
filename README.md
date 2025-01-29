@@ -17,13 +17,18 @@ Projekt jest pełnoprawną aplikacją webową opartą na stosie **MERN** (**Mong
 
 ## 🚀 Uruchomienie projektu
 
+**UWAGA! Do poprawnej pracy aplikacji potrzebny jest plik `.env`.**
+**W celu uzyskania tego pliku skontaktuj się z jednym z autorów.**
+
 Aby uruchomić aplikację lokalnie, wykonaj poniższe kroki:
 
 1. Zainstaluj zależności backendu, frontendu oraz pomocnicze:
    ```bash
    npm run install-all
    ```
-2. Uruchom aplikację:
+2. Umieść plik `.env` w katalogu [/backend](/backend)
+
+3. Uruchom aplikację:
     ```bash
     npm run start
     ```
