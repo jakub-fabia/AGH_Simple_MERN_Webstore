@@ -34,11 +34,11 @@ Aby uruchomić aplikację lokalnie, wykonaj poniższe kroki:
 
 ## 🛠 Wykorzystane technologie
 
-### 📌 Narzędzia pomocnicze
+### Narzędzia pomocnicze
 
 - **concurrently** – umożliwia równoczesne uruchamianie backendu i frontendów, upraszczając zarządzanie projektem.
 
-### 🏗 Backend
+### Backend
 
 Backend aplikacji został zbudowany w oparciu o **Node.js** i **Express** oraz korzysta z **MongoDB** jako bazy danych.
 
@@ -52,5 +52,42 @@ Backend aplikacji został zbudowany w oparciu o **Node.js** i **Express** oraz k
 - **bcryptjs** – szyfrowanie haseł użytkowników przed zapisaniem w bazie danych.
 - **validator** – walidacja danych wejściowych - poprawność adresów e-mail.
 
-### 🎨 Frontend
+### Frontend
 
+Frontend aplikacji został zbudowany w oparciu o **Vite** i **React**, z wykorzystaniem **React Bootstrap**. 
+
+- **react-bootstrap** – komponenty React oparte na Bootstrapie, ułatwiające stylizację interfejsu.
+- **bootstrap** – framework CSS zapewniający gotowe style i komponenty UI.
+- **react-router-dom** – obsługa nawigacji i trasowania w aplikacji React.
+- **@reduxjs/toolkit** – zestaw narzędzi ułatwiających zarządzanie stanem aplikacji w Redux.
+- **react-redux** – integracja Redux z Reactem, umożliwiająca łatwy dostęp do globalnego stanu.
+- **axios** – biblioteka do obsługi zapytań HTTP, wykorzystywana do komunikacji z backendem.
+- **framer-motion** – biblioteka do animacji i efektów wizualnych w React.
+- **prop-types** – narzędzie do sprawdzania typów właściwości komponentów React.
+
+## ⚙ Funkcjonalności
+
+### Autoryzacja
+- Rejestracja, Logowanie, Wylogowanie z konta
+- Sprawdzanie uprawnień
+
+
+### Admin
+- Dodawanie, Edytowanie, Usuwanie Produktów
+- Możliwość wyświetlania i zmiany statusu wszystkich zamówień
+- Możliwość wyświetlania i usunięcia każdej opinii
+
+### Użytkownik
+- Przeglądanie produktów w sklepie
+- Wyszukiwanie produktu i filtrowanie po kategorii
+- Sprawdzanie szczegółów produktu (wraz z dodanymi do niego opiniami)
+- Dodanie, usunięcie opinii (po zakupie produktu)
+- Dodanie, usunięcie produktu do koszyka
+- Zmiana ilości produktu w koszyku
+- Stworzenie zamówienia (po wprowadzeniu danych do wysyłki)
+- "Opłacenie zamówienia"
+- Przeglądanie złożonych zamówień
+
+### System
+- Sprawdzanie warunków integralnościowych wielu operacji (mamy nadzieję, że wszystkich)
+- Dynamiczne aktualizowanie stanu magazynu i średniej oceny produktów
