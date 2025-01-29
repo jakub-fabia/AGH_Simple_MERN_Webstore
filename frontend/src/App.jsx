@@ -8,7 +8,6 @@ import LoginPage from "./pages/auth/LoginPage.jsx";
 import AuthLayout from "./components/layouts/AuthLayout.jsx";
 import UnauthorizedPage from "./pages/misc/UnauthorizedPage.jsx";
 import NotFound from "./pages/misc/NotFound.jsx";
-import AdminLayout from "./components/layouts/AdminLayout.jsx";
 import ShopLayout from "./components/layouts/ShopLayout.jsx";
 import ShopHome from "./pages/shop/ShopHome.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
@@ -24,6 +23,7 @@ import PlaceOrder from "./pages/shop/PlaceOrder.jsx";
 import PayForOrder from "./pages/shop/PayForOrder.jsx";
 import UserOrders from "./pages/shop/UserOrders.jsx";
 import OrderDetails from "./pages/shop/OrderDetails.jsx";
+import NavbarAdmin from "./components/navbar/NavbarAdmin.jsx";
 
 
 function App() {
@@ -65,7 +65,7 @@ function App() {
             </Route>
             <Route path="/admin" element={
                 <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                    <AdminLayout />
+                    <NavbarAdmin />
                 </CheckAuth>
             }
             >
