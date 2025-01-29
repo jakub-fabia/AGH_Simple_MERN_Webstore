@@ -1,39 +1,52 @@
-function AdminProductTile({ product, handleDelete, handleEdit }) {
-	return (
-		<div>
-			<div>
-				<img
+import { Card, Button } from "react-bootstrap";
+import * as PropTypes from "prop-types";
+import {Component} from "react";
+
+class AdminProductTile extends Component {
+	render() {
+		let {product, handleDelete, handleEdit} = this.props;
+		return (
+			<Card className="h-100 shadow-sm border-0">
+				<Card.Img
+					variant="top"
 					src={product.image}
 					alt={product.title}
-					className="object-cover h-full w-full"
+					className="product-img"
 				/>
-			</div>
+				<Card.Body className="d-flex flex-column">
+					<Card.Title className="text-truncate">{product.title}</Card.Title>
+					<Card.Text className="text-muted text-truncate">
+						{product.description}
+					</Card.Text>
+					<p className="mb-1"><strong>Category:</strong> {product.category}</p>
+					<p className="mb-1"><strong>Price:</strong> ${product.price.toFixed(2)}</p>
+					<p className="mb-1"><strong>Stars:</strong> {product.averageReview} ⭐</p>
+					<p className="mb-3"><strong>Stock:</strong> {product.stock}</p>
 
-			<div className="flex flex-col space-y-2 mb-4">
-				<h2 className="text-lg font-bold truncate">{product.title}</h2>
-				<p className="text-gray-600 truncate">{product.description}</p>
-				<p className="text-gray-800 font-semibold">Category: {product.category}</p>
-				<p className="text-gray-800 font-semibold">Price: ${product.price}</p>
-				<p className="text-gray-800 font-semibold">Stars: {product.averageReview}</p>
-				<p className="text-gray-800 font-semibold">Stock: {product.stock}</p>
-			</div>
+					<div className="mt-auto d-flex justify-content-between">
+						<Button
+							variant="primary"
+							onClick={() => handleEdit(product._id)}
+						>
+							Modify
+						</Button>
+						<Button
+							variant="danger"
+							onClick={() => handleDelete(product._id)}
+						>
+							Delete
+						</Button>
+					</div>
+				</Card.Body>
+			</Card>
+		);
+	}
+}
 
-			<div className="mt-auto flex space-x-2">
-			<button
-					onClick={() => handleEdit(product?._id)}
-					className="flex-1 bg-blue-500 text-white rounded px-2 py-1 hover:bg-blue-600"
-				>
-					Modify Product
-				</button>
-				<button
-					onClick={() => handleDelete(product?._id)}
-					className="flex-1 bg-red-500 text-white rounded px-2 py-1 hover:bg-red-600"
-				>
-					Delete Product
-				</button>
-			</div>
-		</div>
-	);
+AdminProductTile.propTypes = {
+	product: PropTypes.any,
+	handleDelete: PropTypes.any,
+	handleEdit: PropTypes.any
 }
 
 export default AdminProductTile;

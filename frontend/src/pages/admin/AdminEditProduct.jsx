@@ -1,139 +1,101 @@
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {editProduct, fetchAllProducts, fetchProduct} from "../../redux/adminSlice/products/index.js";
-import { useNavigate, useParams} from "react-router-dom";
-
-// Wiem że ten plik jest przeokrutnie nieczytelny ale działa o dziwo
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editProduct, fetchAllProducts, fetchProduct } from "../../redux/adminSlice/products";
+import { useNavigate, useParams } from "react-router-dom";
+import AdminProductTile from "../../components/admin/AdminProductTile.jsx";
+import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 
 function AdminEditProduct() {
-	const paramId = useParams();
+	const { id } = useParams();
 	const dispatch = useDispatch();
-	const { product } = useSelector((state) => state.adminProducts);
-	const [formData, setFormData] = useState();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const { product, loading, error } = useSelector((state) => state.adminProducts);
+	const [formData, setFormData] = useState(null);
 
 	useEffect(() => {
-		dispatch(fetchProduct(paramId.id))
-	}, [dispatch, paramId]);
+		dispatch(fetchProduct(id));
+	}, [dispatch, id]);
 
 	useEffect(() => {
-		if (product) {
-			setFormData(product);
+		if (product && Object.keys(product).length > 0) {
+			setFormData({
+				image: product.image || "",
+				title: product.title || "",
+				description: product.description || "",
+				price: product.price || 0,
+				stock: product.stock || 0,
+				category: product.category || ""
+			});
 		}
 	}, [product]);
 
-	if (!formData) {
-		return <div>Loading...</div>;
-	}
+	if (loading) return <div>Loading...</div>;
+	if (error) return <div className="text-danger">Error: {error}</div>;
+	if (!formData) return <div>Loading product data...</div>;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		console.log(formData)
 		setFormData((prevData) => ({
 			...prevData,
-			[name]: value,
+			[name]: name === "price" || name === "stock" ? parseFloat(value) || 0 : value,
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(formData)
-		dispatch(
-			editProduct({
-				id: product?._id,
-				formData,
-			})
-		).then((data) => {
-			if (data?.payload?.success) {
-				dispatch(fetchAllProducts())
-				alert("Edited Successfully")
+		try {
+			const response = await dispatch(editProduct({ id: product?._id, formData }));
+			if (response?.payload?.success) {
+				dispatch(fetchAllProducts());
+				alert("Product updated successfully");
 				navigate("/admin/products");
 			}
-		});
+		} catch (error) {
+			alert("Error updating product");
+		}
 	};
 
 	return (
-		<div className="p-4">
-			<h1 className="text-xl font-bold mb-4">Add/Edit Product</h1>
-			<form onSubmit={handleSubmit} className="space-y-4">
-				<div>
-					<label className="block font-medium mb-1">Image URL</label>
-					<input
-						type="text"
-						name="image"
-						value={formData.image}
-						onChange={handleChange}
-						className="block w-full border rounded p-2"
-						placeholder="Enter image URL"
-					/>
-				</div>
-				<div>
-					<label className="block font-medium mb-1">Title</label>
-					<input
-						type="text"
-						name="title"
-						value={formData.title}
-						onChange={handleChange}
-						className="block w-full border rounded p-2"
-						placeholder="Enter product title"
-					/>
-				</div>
-				<div>
-					<label className="block font-medium mb-1">Description</label>
-					<textarea
-						name="description"
-						value={formData.description}
-						onChange={handleChange}
-						className="block w-full border rounded p-2"
-						placeholder="Enter product description"
-					></textarea>
-				</div>
-				<div>
-					<label className="block font-medium mb-1">Category</label>
-					<select
-						name="category"
-						value={formData.category}
-						onChange={handleChange}
-						className="block w-full border rounded p-2"
-					>
-						<option value="">Select category</option>
-						<option value="Men">Men</option>
-						<option value="Women">Women</option>
-						<option value="Kids">Kids</option>
-						<option value="Accessories">Accessories</option>
-						<option value="Footwear">Footwear</option>
-					</select>
-				</div>
-				<div>
-					<label className="block font-medium mb-1">Price</label>
-					<input
-						type="number"
-						name="price"
-						value={formData.price}
-						onChange={handleChange}
-						className="block w-full border rounded p-2"
-						placeholder="Enter product price"
-					/>
-				</div>
-				<div>
-					<label className="block font-medium mb-1">Stock</label>
-					<input
-						type="number"
-						name="stock"
-						value={formData.stock}
-						onChange={handleChange}
-						className="block w-full border rounded p-2"
-						placeholder="Enter stock quantity"
-					/>
-				</div>
-				<button
-					type="submit"
-					className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600"
-				>
-					Submit
-				</button>
-			</form>
-		</div>
+		<Container className="py-5">
+			<Row className="justify-content-center">
+				<Col md={5}>
+					<h2 className="text-center mb-3">Edit Product</h2>
+					<Card className="p-4 shadow bg-light rounded">
+						<Form onSubmit={handleSubmit}>
+							{["image", "title", "description", "price", "stock"].map((field) => (
+								<Form.Group className="mb-3" key={field}>
+									<Form.Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Form.Label>
+									<Form.Control
+										type={field === "description" ? "textarea" : "text"}
+										as={field === "description" ? "textarea" : "input"}
+										name={field}
+										value={formData[field]}
+										onChange={handleChange}
+										placeholder={`Enter ${field}`}
+									/>
+								</Form.Group>
+							))}
+							<Form.Group className="mb-3">
+								<Form.Label>Category</Form.Label>
+								<Form.Select name="category" value={formData.category} onChange={handleChange}>
+									<option value="">Select category</option>
+									{["Men", "Women", "Kids", "Accessories", "Footwear"].map((cat) => (
+										<option key={cat} value={cat}>{cat}</option>
+									))}
+								</Form.Select>
+							</Form.Group>
+							<Button variant="dark" type="submit" className="w-100">Submit</Button>
+						</Form>
+					</Card>
+				</Col>
+				<Col md={5}>
+					<h2 className="text-center mb-3">Product Preview</h2>
+					<Card className="p-4 shadow bg-light rounded">
+						{formData && <AdminProductTile product={formData} handleEdit={() => {}} handleDelete={() => {}} />}
+					</Card>
+				</Col>
+			</Row>
+		</Container>
 	);
 }
 

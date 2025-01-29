@@ -1,19 +1,26 @@
-import {Link, Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Navbar from "../navbar/Navbar"; // Import Navbar
 
 function AuthLayout() {
     return (
         <div>
-            <h1>Auth Layout</h1>
-            <div>
-                <Link to="/auth/login">
-                    <span>Login</span><br/>
-                </Link>
-                <Link to="/auth/register">
-                    <span>Register</span>
-                </Link>
+            {/* Add Navbar here */}
+            <Navbar />
+
+            <div style={styles.container}>
+                <Outlet />
             </div>
-            <div><Outlet/></div>
-        </div>)
+        </div>
+    );
 }
+
+const styles = {
+    container: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "90vh",
+    },
+};
 
 export default AuthLayout;
