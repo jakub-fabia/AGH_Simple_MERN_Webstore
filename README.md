@@ -67,6 +67,7 @@ Frontend aplikacji został zbudowany w oparciu o **Vite** i **React**, z wykorzy
 - **axios** – biblioteka do obsługi zapytań HTTP, wykorzystywana do komunikacji z backendem.
 - **framer-motion** – biblioteka do animacji i efektów wizualnych w React.
 - **prop-types** – narzędzie do sprawdzania typów właściwości komponentów React.
+- **react-icons** - biblioteka umożliwiająca łatwe używanie ikon z popularnych zestawów.
 
 ## ⚙ Funkcjonalności
 
