@@ -13,7 +13,7 @@ Projekt jest pełnoprawną aplikacją webową opartą na stosie **MERN** (**Mong
 
 ## 📜 Treść polecenia
 
-[**Treść zadania**](/)
+[**Treść zadania**](/Projekt.pdf)
 
 ## 🚀 Uruchomienie projektu
 
