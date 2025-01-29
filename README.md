@@ -33,6 +33,8 @@ Aby uruchomić aplikację lokalnie, wykonaj poniższe kroki:
     npm run start
     ```
 
+Należy również pamiętać, że niektóre przeglądarki mogą blokować poprawne działanie aplikacji przez politykę CORS (Cross-Origin Resource Sharing).
+
 ## 🛠 Wykorzystane technologie
 
 ### Narzędzia pomocnicze
