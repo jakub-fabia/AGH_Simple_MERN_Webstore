@@ -29,7 +29,7 @@ const addToCart = async (req, res) => {
 			});
 		}
 
-		let cart = await Cart.findOne({user: user});
+		let cart = await Cart.findOne({ user: userId });
 
 		if (!cart) {
 			cart = new Cart({ user, items: [] });
@@ -65,7 +65,6 @@ const addToCart = async (req, res) => {
 const fetchCartItems = async (req, res) => {
 	try {
 		const { userId } = req.params;
-
 		if (!userId) {
 			return res.status(400).json({
 				success: false,
@@ -73,7 +72,7 @@ const fetchCartItems = async (req, res) => {
 			});
 		}
 
-		const cart = await Cart.findOne({ userId }).populate({
+		let cart = await Cart.findOne({ user: userId }).populate({
 			path: "items.productId",
 			select: "image title price",
 		});
@@ -129,7 +128,9 @@ const updateCartItemQty = async (req, res) => {
 			});
 		}
 
-		const cart = await Cart.findOne({ userId });
+		const product = await Product.findById(productId)
+
+		const cart = await Cart.findOne({ user: userId });
 		if (!cart) {
 			return res.status(404).json({
 				success: false,
@@ -148,7 +149,7 @@ const updateCartItemQty = async (req, res) => {
 			});
 		}
 
-		cart.items[findCurrentProductIndex].quantity = quantity;
+		product.stock > quantity ? cart.items[findCurrentProductIndex].quantity = quantity : cart.items[findCurrentProductIndex].quantity;
 		await cart.save();
 
 		await cart.populate({
@@ -161,7 +162,7 @@ const updateCartItemQty = async (req, res) => {
 			image: item.productId ? item.productId.image : null,
 			title: item.productId ? item.productId.title : "Product not found",
 			price: item.productId ? item.productId.price : null,
-			quantity: item.quantity,
+			quantity: item.quantity
 		}));
 
 		res.status(200).json({
@@ -190,7 +191,7 @@ const deleteCartItem = async (req, res) => {
 			});
 		}
 
-		const cart = await Cart.findOne({ userId }).populate({
+		const cart = await Cart.findOne({user: userId }).populate({
 			path: "items.productId",
 			select: "image title price",
 		});

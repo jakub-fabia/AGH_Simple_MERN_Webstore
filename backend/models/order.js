@@ -29,11 +29,12 @@ const orderSchema = new mongoose.Schema({
             },
         }
     ],
-    totalPrice: {
-        type: Number,
-        required: true,
-    },
-    orderStatus: {type: String}
+    orderStatus: {
+        type: String,
+        default: "New",
+        enum: ["New", "Paid", "Sent", "Delivered"],
+        required: true
+    }
 }, {
     timestamps: true,
 });
