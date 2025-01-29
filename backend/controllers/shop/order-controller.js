@@ -62,8 +62,6 @@ const capturePayment = async (req, res) => {
 					message: `Not enough stock for this product ${product.title}`,
 				});
 			}
-			console.log(product)
-			console.log(item.quantity)
 			product.stock -= item.quantity;
 
 			await product.save();
