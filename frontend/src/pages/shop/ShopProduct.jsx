@@ -10,7 +10,7 @@ function ShopProduct() {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
 	const { productDetails } = useSelector((state) => state.shopProducts);
-	const { reviews } = useSelector((state) => state.shopReview);
+	const { reviews, message} = useSelector((state) => state.shopReview);
 	const [quantity, setQuantity] = useState(1);
 	const [reviewMessage, setReviewMessage] = useState("");
 	const [reviewValue, setReviewValue] = useState(5);
@@ -46,11 +46,16 @@ function ShopProduct() {
 				reviewValue: reviewValue,
 			})
 		).then((data) => {
-			if (data.payload.success) {
+			if (data?.payload?.success) {
 				setReviewValue(5);
 				setReviewMessage("");
 				dispatch(getReviews(productDetails?._id));
 				alert("Review added successfully!")
+			}
+			else{
+				setReviewValue(5);
+				setReviewMessage("");
+				alert("Review can't be added!")
 			}
 		});
 	}

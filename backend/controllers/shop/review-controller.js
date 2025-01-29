@@ -8,7 +8,7 @@ const addProductReview = async (req, res) => {
 			req.body;
 
 		const order = await Order.findOne({
-			userId,
+			user: userId,
 			"items.productId": productId,
 		});
 
@@ -21,7 +21,7 @@ const addProductReview = async (req, res) => {
 
 		const checkExistingReview = await ProductReview.findOne({
 			productId: productId,
-			user: userId,
+			userId: userId,
 		});
 
 		if (checkExistingReview) {
