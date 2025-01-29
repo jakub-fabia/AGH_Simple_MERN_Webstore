@@ -3,7 +3,7 @@ const Product = require("../../models/product.js");
 
 const fetchAllReviews = async (req, res) => {
 	try {
-		const reviews = await Review.find({});
+		const reviews = await Review.find({}).populate("productId", "title");
 
 		if (!reviews.length) {
 			return res.status(404).json({
