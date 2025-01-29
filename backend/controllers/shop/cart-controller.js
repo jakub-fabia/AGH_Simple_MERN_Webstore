@@ -68,7 +68,7 @@ const fetchCartItems = async (req, res) => {
 		if (!userId) {
 			return res.status(400).json({
 				success: false,
-				message: "User id is manadatory!",
+				message: "User id is mandatory!",
 			});
 		}
 
