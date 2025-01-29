@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../../redux/authSlice/index.js";
@@ -9,14 +9,21 @@ function NavbarAdmin() {
         dispatch(logoutUser());
     }
     return (
-        <nav style={styles.navbar}>
-            <h2 style={styles.logo}>Fabson&Gontarsky - Admin</h2>
-            <div style={styles.links}>
-                <Link to="/admin/dashboard" style={styles.link}>Dashboard</Link>
-                <Link to="/admin/products/all" style={styles.link}>Products</Link>
-                <button style={styles.logout} onClick={handleLogout}>Logout</button>
+        <div>
+            <nav style={styles.navbar}>
+                <h2 style={styles.logo}>Fabson&Gontarsky - Admin</h2>
+                <div style={styles.links}>
+                    <Link to="/admin/dashboard" style={styles.link}>Dashboard</Link>
+                    <Link to="/admin/products/all" style={styles.link}>Products</Link>
+                    <Link to="/admin/orders" style={styles.link}>Orders</Link>
+                    <Link to="/admin/reviews" style={styles.link}>Reviews</Link>
+                    <button style={styles.logout} onClick={handleLogout}>Logout</button>
+                </div>
+            </nav>
+            <div style={styles.content}>
+                <Outlet/>
             </div>
-        </nav>
+        </div>
     );
 }
 
