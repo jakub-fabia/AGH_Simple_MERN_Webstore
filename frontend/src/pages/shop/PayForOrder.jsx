@@ -81,9 +81,9 @@ function PayForOrder() {
 							</Col>
 							<Col md={10}>
 								<h5 className="mb-1">{item.productId.title}</h5>
-								<p className="mb-1">Price: ${item.productId.price.toFixed(2)}</p>
+								<p className="mb-1">Price: ${item.productId.price}</p>
 								<p className="mb-1">Quantity: {item.quantity}</p>
-								<p className="mb-1">Total: ${(item.productId.price * item.quantity).toFixed(2)}</p>
+								<p className="mb-1">Total: ${(item.productId.price * item.quantity)}</p>
 							</Col>
 						</Row>
 					))}
@@ -92,7 +92,7 @@ function PayForOrder() {
 
 			<Card className="mb-4">
 				<Card.Body className="text-right">
-					<h4>Total: ${totalSum.toFixed(2)}</h4>
+					<h4>Total: ${totalSum}</h4>
 				</Card.Body>
 			</Card>
 
