@@ -46,13 +46,13 @@ function AdminEditProduct() {
 		try {
 			const response = await dispatch(editProduct({ id: product?._id, formData }));
 			if (response?.payload?.success) {
-				dispatch(fetchAllProducts());
 				alert("Product updated successfully");
-				navigate("/admin/products");
+				navigate("/admin/products/all");
 			}
 		} catch (error) {
 			alert("Error updating product");
 		}
+		dispatch(fetchAllProducts());
 	};
 
 	return (

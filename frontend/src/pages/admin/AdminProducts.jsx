@@ -8,7 +8,7 @@ import {FaStar} from "react-icons/fa";
 function AdminProducts() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { productList } = useSelector((state) => state.adminProducts);
+	const { productList, isLoading } = useSelector((state) => state.adminProducts);
 
 	useEffect(() => {
 		dispatch(fetchAllProducts());
