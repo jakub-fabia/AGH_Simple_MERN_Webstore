@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import cart, { deleteCartItem, fetchCartItems, updateCartQuantity } from "../../redux/shopSlice/cart/index.js";
-import {useNavigate} from "react-router-dom";
+import { deleteCartItem, fetchCartItems, updateCartQuantity } from "../../redux/shopSlice/cart/index.js";
+import { useNavigate } from "react-router-dom";
+import { Col, Row, Container, Button } from "react-bootstrap";
 
 function Cart() {
 	const { user } = useSelector((state) => state.auth);
@@ -14,6 +15,7 @@ function Cart() {
 			dispatch(fetchCartItems(user.id));
 		}
 	}, [dispatch, user]);
+
 	const handleQuantityChange = (e, productId) => {
 		const newQuantity = parseInt(e.target.value, 10);
 		if (newQuantity >= 1) {
@@ -50,107 +52,101 @@ function Cart() {
 	);
 
 	const handlePlaceOrder = () => {
-		navigate('/shop/order/new')
-	}
+		navigate('/shop/order/new');
+	};
 
 	return (
-		<div>
-			<h1>Your Cart</h1>
-			<div>
-				{cartItems?.items?.length > 0 ? (
-					<>
-						{cartItems.items.map((item, index) => (
-							<div
-								key={index}
-								style={{
-									display: "flex",
-									alignItems: "center",
-									marginBottom: "16px",
-								}}
-							>
-								{/* Product Image */}
-								<img
-									src={item.image}
-									alt={item.title}
-									style={{
-										width: "100px",
-										height: "100px",
-										marginRight: "16px",
-										objectFit: "cover",
-									}}
-								/>
-								{/* Product Info */}
-								<div style={{flex: 1}}>
-									<h2 style={{margin: "0"}}>{item.title}</h2>
-									<p style={{margin: "0"}}>Price: ${item.price}</p>
-									<p style={{margin: "0"}}>
-										Total price: ${(item.price * item.quantity)}
-									</p>
-								</div>
-								{/* Quantity Input */}
-								<div>
-									<label htmlFor={`quantity-${index}`}>Quantity:</label>
-									<input
-										id={`quantity-${index}`}
-										type="number"
-										min="1"
-										value={item.quantity}
-										onChange={(e) => handleQuantityChange(e, item.productId)}
-										style={{marginLeft: "8px", width: "60px"}}
-									/>
-								</div>
-								{/* Remove Button */}
-								<div>
-									<button
-										style={{
-											marginLeft: "16px",
-											backgroundColor: "red",
-											color: "white",
-											border: "none",
-											padding: "8px 12px",
-											cursor: "pointer",
-										}}
-										onClick={() => handleDeleteItem(item.productId)}
+		<Container>
+			<Row>
+				<h1>Your Cart</h1>
+			</Row>
+			<Row style={{ marginTop: "20px" }}>
+				<div>
+					{cartItems?.items?.length > 0 ? (
+						<>
+							{cartItems.items.map((item, index) => (
+								<Row key={index} className="align-items-center mb-4" style={styles.productContainer}>
+									<Col md={2}>
+										<img
+											src={item.image}
+											alt={item.title}
+											style={{
+												width: "150px",
+												height: "150px",
+												objectFit: "contain",
+											}}
+										/>
+									</Col>
+									<Col md={7}>
+										<h2>{item.title}</h2>
+										<p>Price: ${item.price}</p>
+										<p>Total price: ${(item.price * item.quantity).toFixed(2)}</p>
+									</Col>
+									<Col md={2} style={styles.rightAligned}>
+										<Row>
+											<Col md = {4} style = {{marginLeft: '20px'}}>
+												<p>Quantity: </p>
+											</Col>
+											<Col>
+												<input
+													id={`quantity-${index}`}
+													type="number"
+													min="1"
+													value={item.quantity}
+													onChange={(e) => handleQuantityChange(e, item.productId)}
+													style={{marginLeft: "8px", width: "60px"}}
+												/>
+											</Col>
+										</Row>
+										<Row style={{alignContent: "center"}}>
+											<Button
+												variant="danger"
+												onClick={() => handleDeleteItem(item.productId)}
+											>
+												Remove
+											</Button>
+										</Row>
+									</Col>
+								</Row>
+							))}
+							<Row className="mt-4">
+								<Col>
+									<h3>Total Sum: ${totalSum.toFixed(2)}</h3>
+								</Col>
+							</Row>
+							<Row className="mt-4">
+								<Col>
+									<Button
+										variant="success"
+										onClick={handlePlaceOrder}
 									>
-										Remove
-									</button>
-								</div>
-							</div>
-						))}
-						{/* Total Sum */}
-						<div
-							style={{
-								marginTop: "20px",
-								fontSize: "18px",
-								fontWeight: "bold",
-							}}
-						>
-							Total Sum: ${totalSum}
-						</div>
-						{/* Place Order Button */}
-						<button
-							style={{
-								marginTop: "20px",
-								padding: "10px 20px",
-								fontSize: "16px",
-								fontWeight: "bold",
-								backgroundColor: "#28a745",
-								color: "white",
-								border: "none",
-								borderRadius: "5px",
-								cursor: "pointer",
-							}}
-							onClick={handlePlaceOrder}
-						>
-							Place Order
-						</button>
-					</>
-				) : (
-					<p>Your cart is empty.</p>
-				)}
-			</div>
-		</div>
+										Place Order
+									</Button>
+								</Col>
+							</Row>
+						</>
+					) : (
+						<p>Your cart is empty.</p>
+					)}
+				</div>
+			</Row>
+		</Container>
 	);
 }
 
 export default Cart;
+
+const styles = {
+	productContainer: {
+		border: "2px solid black",
+		borderRadius: "10px",
+		padding: "10px",
+		width: "100%",
+		height: "220px",
+		display: "flex",
+		alignItems: "center",
+	},
+	rightAligned: {
+		marginRight: "20px",
+	},
+};

@@ -1,8 +1,9 @@
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchCartItems} from "../../redux/shopSlice/cart/index.js";
-import {createNewOrder} from "../../redux/shopSlice/order/index.js";
-import {useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartItems } from "../../redux/shopSlice/cart/index.js";
+import { createNewOrder } from "../../redux/shopSlice/order/index.js";
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
 function PlaceOrder() {
 	const [formData, setFormData] = useState({
@@ -59,101 +60,110 @@ function PlaceOrder() {
 	}
 
 	return (
-		<div className="p-4 max-w-md mx-auto">
+		<Container className="p-4 max-w-md mx-auto">
 			<h1 className="text-xl font-bold mb-4">Address Form</h1>
-			<form onSubmit={handleSubmit} className="space-y-4">
-				<div>
-					<label className="block font-medium">Name</label>
-					<input
-						type="text"
-						name="name"
-						value={formData.name}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<div>
-					<label className="block font-medium">Country</label>
-					<input
-						type="text"
-						name="country"
-						value={formData.address.country}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<div>
-					<label className="block font-medium">City</label>
-					<input
-						type="text"
-						name="city"
-						value={formData.address.city}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<div>
-					<label className="block font-medium">Zipcode</label>
-					<input
-						type="text"
-						name="zipcode"
-						value={formData.address.zipcode}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<div>
-					<label className="block font-medium">Street</label>
-					<input
-						type="text"
-						name="street"
-						value={formData.address.street}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<div>
-					<label className="block font-medium">House</label>
-					<input
-						type="text"
-						name="house"
-						value={formData.address.house}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<div>
-					<label className="block font-medium">Phone</label>
-					<input
-						type="number"
-						name="phone"
-						value={formData.phone}
-						onChange={handleChange}
-						className="border rounded p-2 w-full"
-						required
-					/>
-				</div>
-
-				<button
+			<Form onSubmit={handleSubmit} className="space-y-4">
+				<Row>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>Name</Form.Label>
+							<Form.Control
+								type="text"
+								name="name"
+								value={formData.name}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>Country</Form.Label>
+							<Form.Control
+								type="text"
+								name="country"
+								value={formData.address.country}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+				</Row>
+				<Row>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>City</Form.Label>
+							<Form.Control
+								type="text"
+								name="city"
+								value={formData.address.city}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>Zipcode</Form.Label>
+							<Form.Control
+								type="text"
+								name="zipcode"
+								value={formData.address.zipcode}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+				</Row>
+				<Row>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>Street</Form.Label>
+							<Form.Control
+								type="text"
+								name="street"
+								value={formData.address.street}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>House</Form.Label>
+							<Form.Control
+								type="text"
+								name="house"
+								value={formData.address.house}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+				</Row>
+				<Row>
+					<Col md={6}>
+						<Form.Group>
+							<Form.Label>Phone</Form.Label>
+							<Form.Control
+								type="number"
+								name="phone"
+								value={formData.phone}
+								onChange={handleChange}
+								required
+							/>
+						</Form.Group>
+					</Col>
+				</Row>
+				<br></br>
+				<Button
 					type="submit"
-					className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600"
-				>
+					variant="success"
+					style={{ width: "30%", marginLeft: "35%" }}>
 					Submit
-				</button>
-			</form>
-		</div>
+				</Button>
+			</Form>
+		</Container>
 	);
 }
 

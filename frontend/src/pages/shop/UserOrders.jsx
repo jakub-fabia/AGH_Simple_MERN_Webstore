@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllOrdersByUserId } from "../../redux/shopSlice/order/index.js";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 function UserOrders() {
 	const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function UserOrders() {
 			if (!user?.id) return; // Ensure user is available before fetching
 
 			try {
-				console.log(user)
+				console.log(user);
 				setLoading(true);
 				const response = await dispatch(getAllOrdersByUserId(user.id)).unwrap();
 				console.log("Orders fetched:", response);
@@ -33,22 +34,29 @@ function UserOrders() {
 	}
 
 	return (
-		<div>
-			<h1>Your Orders</h1>
+		<Container>
+			<h1 className="my-4 text-center">Your Orders</h1>
 			{orderList && orderList.length > 0 ? (
-				<ul>
+				<Row>
 					{orderList.map((order) => (
-						<Link to={`/shop/order/details/${order._id}`} key={order._id}>
-							<li>
-								Order #{order._id} - Status: {order.orderStatus}
-							</li>
-						</Link>
+						<Col key={order._id} sm={12} md={6} lg={4} className="mb-4">
+							<Card>
+								<Card.Body>
+									<Card.Title>Order #{order._id}</Card.Title>
+									<Card.Text>Status: {order.orderStatus}</Card.Text>
+									<Link to={`/shop/order/details/${order._id}`}>
+										<Button variant="dark">View Details</Button>
+									</Link>
+								</Card.Body>
+							</Card>
+						</Col>
 					))}
-				</ul>
+				</Row>
 			) : (
-				<p>No orders found.</p>
+
+				<p className="text-center">No orders found.</p>
 			)}
-		</div>
+		</Container>
 	);
 }
 

@@ -16,21 +16,16 @@ function OrderDetails() {
 		return <div>Loading order details...</div>;
 	}
 
-	// Destructure relevant fields for cleaner code
 	const { name, phone, address, items, orderStatus, createdAt } = orderDetails;
 
 	return (
 		<div style={{ padding: "20px" }}>
 			<h1>Order Details</h1>
-
-			{/* User Info */}
 			<div style={{ marginBottom: "20px" }}>
 				<h2>Customer Information</h2>
 				<p><strong>Name:</strong> {name}</p>
 				<p><strong>Phone:</strong> {phone}</p>
 			</div>
-
-			{/* Address Info */}
 			<div style={{ marginBottom: "20px" }}>
 				<h2>Shipping Address</h2>
 				<p>
@@ -39,15 +34,11 @@ function OrderDetails() {
 					{address.country}
 				</p>
 			</div>
-
-			{/* Order Info */}
 			<div style={{ marginBottom: "20px" }}>
 				<h2>Order Information</h2>
 				<p><strong>Order Status:</strong> {orderStatus}</p>
 				<p><strong>Order Date:</strong> {new Date(createdAt).toLocaleString()}</p>
 			</div>
-
-			{/* Order Items */}
 			<div>
 				<h2>Order Items</h2>
 				{items.map((item) => (
@@ -61,7 +52,6 @@ function OrderDetails() {
 							paddingBottom: "10px",
 						}}
 					>
-						{/* Product Image */}
 						<img
 							src={item.productId.image}
 							alt={item.productId.title}
@@ -73,7 +63,6 @@ function OrderDetails() {
 								borderRadius: "5px",
 							}}
 						/>
-						{/* Product Info */}
 						<div style={{ flex: 1 }}>
 							<h3 style={{ margin: "0" }}>{item.productId.title}</h3>
 							<p style={{ margin: "0" }}>Price: ${item.productId.price.toFixed(2)}</p>
@@ -85,8 +74,6 @@ function OrderDetails() {
 					</div>
 				))}
 			</div>
-
-			{/* Total Sum */}
 			<div
 				style={{
 					marginTop: "20px",

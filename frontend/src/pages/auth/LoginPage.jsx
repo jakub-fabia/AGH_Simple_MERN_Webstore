@@ -43,7 +43,7 @@ function AuthLogin() {
                         {error && <Alert variant="dark">{error}</Alert>}
                         <Form>
                             <Form.Group className="mb-3" controlId="formUsername">
-                                <Form.Label column={true}>Username</Form.Label>
+                                <Form.Label column={true}>Email</Form.Label>
                                 <Form.Control
                                     type="email"
                                     placeholder="Enter username"

@@ -35,12 +35,12 @@
 
 .delete-button {
     margin-top: 10px;
-    width: auto; /* Automatyczna szerokość dopasowana do zawartości */
-    padding: 5px 15px; /* Lepsza czytelność i komfort kliknięcia */
+    width: auto;
+    padding: 5px 15px;
     background-color: #d32f2f !important;
     color: white !important;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: inline-block; /* Zapobiega rozciąganiu na całą szerokość */
+    display: inline-block;
 }

@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { capturePayment, getOrderDetails } from "../../redux/shopSlice/order/index.js";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 function PayForOrder() {
 	const { id } = useParams();
@@ -12,21 +13,19 @@ function PayForOrder() {
 
 	useEffect(() => {
 		const fetchOrderDetails = async () => {
-			dispatch(getOrderDetails(id))
+			dispatch(getOrderDetails(id));
 		};
 
 		fetchOrderDetails();
 	}, [dispatch, id, user?.id]);
 
-
 	const totalSum = orderDetails?.items?.reduce(
 		(acc, item) => acc + item.productId.price * item.quantity,
 		0
 	);
-	if (isLoading){
-		return <div>Loading...</div>
-	}else{
-		console.log(orderDetails);
+
+	if (isLoading) {
+		return <div>Loading...</div>;
 	}
 
 	const handlePay = async () => {
@@ -47,81 +46,66 @@ function PayForOrder() {
 	};
 
 	return (
-		<div>
-			<h1>Order Details</h1>
-			<div>
-				<h2>Shipping Address</h2>
-				<p>
-					{orderDetails?.name}
-					<br />
-					{orderDetails?.address.street} {orderDetails?.address.house},<br />
-					{orderDetails?.address.city}, {orderDetails?.address.zipcode},<br />
-					{orderDetails?.address.country}
-				</p>
-				<p>Phone: {orderDetails?.phone}</p>
+		<Container>
+			<h1 className="my-4 text-center">Order Details</h1>
+			<Card className="mb-4">
+				<Card.Body>
+					<Card.Title>Shipping Address</Card.Title>
+					<Card.Text>
+						{orderDetails?.name}
+						<br />
+						{orderDetails?.address.street} {orderDetails?.address.house},<br />
+						{orderDetails?.address.city}, {orderDetails?.address.zipcode},<br />
+						{orderDetails?.address.country}
+					</Card.Text>
+					<Card.Text>Phone: {orderDetails?.phone}</Card.Text>
+				</Card.Body>
+			</Card>
+
+			<Card className="mb-4">
+				<Card.Body>
+					<Card.Title>Order Items</Card.Title>
+					{orderDetails?.items.map((item, index) => (
+						<Row key={index} className="mb-3 align-items-center">
+							<Col md={2}>
+								<img
+									src={item.productId.image}
+									alt={item.productId.title}
+									style={{
+										width: "100%",
+										height: "auto",
+										objectFit: "cover",
+										borderRadius: "5px",
+									}}
+								/>
+							</Col>
+							<Col md={10}>
+								<h5 className="mb-1">{item.productId.title}</h5>
+								<p className="mb-1">Price: ${item.productId.price.toFixed(2)}</p>
+								<p className="mb-1">Quantity: {item.quantity}</p>
+								<p className="mb-1">Total: ${(item.productId.price * item.quantity).toFixed(2)}</p>
+							</Col>
+						</Row>
+					))}
+				</Card.Body>
+			</Card>
+
+			<Card className="mb-4">
+				<Card.Body className="text-right">
+					<h4>Total: ${totalSum.toFixed(2)}</h4>
+				</Card.Body>
+			</Card>
+
+			<div className="text-center">
+				<Button
+					variant="success"
+					size="lg"
+					onClick={handlePay}
+				>
+					Pay
+				</Button>
 			</div>
-			<div>
-				<h2>Items</h2>
-				{orderDetails?.items.map((item, index) => (
-					<div
-						key={index}
-						style={{
-							display: "flex",
-							alignItems: "center",
-							marginBottom: "16px",
-						}}
-					>
-						{/* Product Image */}
-						<img
-							src={item.productId.image}
-							alt={item.productId.title}
-							style={{
-								width: "100px",
-								height: "100px",
-								marginRight: "16px",
-								objectFit: "cover",
-							}}
-						/>
-						{/* Product Info */}
-						<div style={{ flex: 1 }}>
-							<h3 style={{ margin: "0" }}>{item.productId.title}</h3>
-							<p style={{ margin: "0" }}>Price: ${item.productId.price}</p>
-							<p style={{ margin: "0" }}>Quantity: {item.quantity}</p>
-							<p style={{ margin: "0" }}>
-								Total Price: ${(item.productId.price * item.quantity)}
-							</p>
-						</div>
-					</div>
-				))}
-			</div>
-			{/* Total Sum */}
-			<div
-				style={{
-					marginTop: "20px",
-					fontSize: "18px",
-					fontWeight: "bold",
-				}}
-			>
-				Total: ${totalSum}
-			</div>
-			{/* Pay Button */}
-			<button
-				style={{
-					marginTop: "20px",
-					padding: "10px 20px",
-					fontSize: "16px",
-					fontWeight: "bold",
-					backgroundColor: "#28a745",
-					color: "white",
-					border: "none",
-					borderRadius: "5px",
-					cursor: "pointer",
-				}}
-				onClick={handlePay}
-			>
-				Pay
-			</button>
-		</div>
+		</Container>
 	);
 }
 
