@@ -5,8 +5,6 @@ import {useNavigate} from "react-router-dom";
 import {Form, Button, Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 const initialState = {
     username: "",
     email: "",

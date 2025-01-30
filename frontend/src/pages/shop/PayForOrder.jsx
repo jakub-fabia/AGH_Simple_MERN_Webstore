@@ -48,7 +48,6 @@ function PayForOrder() {
 	return (
 		<Container>
 			<h1 className="my-4 text-center">Order Details</h1>
-
 			<Card className="mb-4">
 				<Card.Body>
 					<Card.Title>Shipping Address</Card.Title>
@@ -66,9 +65,8 @@ function PayForOrder() {
 			<Card className="mb-4">
 				<Card.Body>
 					<Card.Title>Order Items</Card.Title>
-					<br></br>
 					{orderDetails?.items.map((item, index) => (
-						<Row key={index} className="mb-3">
+						<Row key={index} className="mb-3 align-items-center">
 							<Col md={2}>
 								<img
 									src={item.productId.image}
@@ -82,10 +80,10 @@ function PayForOrder() {
 								/>
 							</Col>
 							<Col md={10}>
-								<h5>{item.productId.title}</h5>
-								<p>Price: ${item.productId.price.toFixed(2)}</p>
-								<p>Quantity: {item.quantity}</p>
-								<p>Total: ${(item.productId.price * item.quantity).toFixed(2)}</p>
+								<h5 className="mb-1">{item.productId.title}</h5>
+								<p className="mb-1">Price: ${item.productId.price.toFixed(2)}</p>
+								<p className="mb-1">Quantity: {item.quantity}</p>
+								<p className="mb-1">Total: ${(item.productId.price * item.quantity).toFixed(2)}</p>
 							</Col>
 						</Row>
 					))}
@@ -101,13 +99,12 @@ function PayForOrder() {
 			<div className="text-center">
 				<Button
 					variant="success"
-					style={{ width: "200px" }}
+					size="lg"
 					onClick={handlePay}
 				>
 					Pay
 				</Button>
 			</div>
-			<br></br>
 		</Container>
 	);
 }

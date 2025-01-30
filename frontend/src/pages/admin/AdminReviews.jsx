@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchAllReviews } from "../../redux/adminSlice/reviews/index.js";
 import {Button, Card} from "react-bootstrap";
 import {deleteReview} from "../../redux/adminSlice/reviews/index.js";
@@ -23,7 +23,6 @@ function AdminReviews() {
 
 	return (
 		<div>
-			<h2>Admin Reviews</h2>
 			{productList && productList.length > 0 ? (
 				productList.map((review) => (
 					<Card key={review._id} className="review-card">

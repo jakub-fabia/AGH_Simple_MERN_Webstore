@@ -1,5 +1,4 @@
 import {Link, Outlet} from "react-router-dom";
-import {Button} from "react-bootstrap";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../../redux/authSlice/index.js";
 

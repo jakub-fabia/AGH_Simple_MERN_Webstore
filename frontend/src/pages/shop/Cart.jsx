@@ -71,9 +71,9 @@ function Cart() {
 											src={item.image}
 											alt={item.title}
 											style={{
-												width: "150px", // Increased width
-												height: "150px", // Increased height
-												objectFit: "contain", // Adjusted to contain
+												width: "150px",
+												height: "150px",
+												objectFit: "contain",
 											}}
 										/>
 									</Col>
@@ -84,7 +84,7 @@ function Cart() {
 									</Col>
 									<Col md={2} style={styles.rightAligned}>
 										<Row>
-											<Col md = {4} style = {{marginLeft: "20px"}}>
+											<Col md = {4} style = {{marginLeft: '20px'}}>
 												<p>Quantity: </p>
 											</Col>
 											<Col>
@@ -142,7 +142,7 @@ const styles = {
 		borderRadius: "10px",
 		padding: "10px",
 		width: "100%",
-		height: "220px", // Increased height for larger images
+		height: "220px",
 		display: "flex",
 		alignItems: "center",
 	},
