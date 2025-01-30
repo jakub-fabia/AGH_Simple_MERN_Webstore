@@ -1,24 +1,30 @@
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { fetchProductDetails } from "../../redux/shopSlice/products/index.js";
-import { getReviews, addReview, deleteReview } from "../../redux/shopSlice/reviews/index.js";
-import {addToCart} from "../../redux/shopSlice/cart/index.js";
+import { useEffect, useState, useCallback } from "react";
+import { fetchProductDetails } from "../../redux/shopSlice/products";
+import { getReviews, addReview, deleteReview } from "../../redux/shopSlice/reviews";
+import { addToCart } from "../../redux/shopSlice/cart";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { FaStar } from "react-icons/fa";
 
 function ShopProduct() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const { user } = useSelector((state) => state.auth);
 	const { productDetails } = useSelector((state) => state.shopProducts);
-	const { reviews, message} = useSelector((state) => state.shopReview);
+	const { reviews } = useSelector((state) => state.shopReview);
+
 	const [quantity, setQuantity] = useState(1);
 	const [reviewMessage, setReviewMessage] = useState("");
 	const [reviewValue, setReviewValue] = useState(5);
-	const navigate = useNavigate();
 
 	useEffect(() => {
-		dispatch(fetchProductDetails(id));
-		dispatch(getReviews(id));
+		if (id) {
+			dispatch(fetchProductDetails(id));
+			dispatch(getReviews(id));
+		}
 	}, [id, dispatch]);
 
 	const handleAddToCart = async () => {
@@ -29,180 +35,141 @@ function ShopProduct() {
 				quantity: quantity,
 			})
 		).unwrap();
-		navigate('/shop/cart')
+		navigate('/shop/cart');
 	};
 
-	function handleAddReview() {
-		if(reviewMessage === ""){
-			alert("Please fill the review!")
+	const handleAddReview = useCallback(() => {
+		if (!reviewMessage.trim()) {
+			alert("Please enter a review message.");
 			return;
 		}
-		dispatch(
-			addReview({
-				productId: productDetails?._id,
-				userId: user?.id,
-				username: user?.username,
-				reviewMessage: reviewMessage,
-				reviewValue: reviewValue,
-			})
-		).then((data) => {
-			if (data?.payload?.success) {
-				setReviewValue(5);
-				setReviewMessage("");
-				dispatch(getReviews(productDetails?._id));
-				alert("Review added successfully!")
-			}
-			else{
-				setReviewValue(5);
-				setReviewMessage("");
-				alert("Review can't be added!")
-			}
-		});
-	}
+		dispatch(addReview({ productId: productDetails?._id, userId: user?.id, username: user?.username, reviewMessage, reviewValue }))
+			.then(({ payload }) => {
+				if (payload?.success) {
+					setReviewMessage("");
+					setReviewValue(5);
+					dispatch(getReviews(productDetails?._id));
+					alert("Review added successfully!");
+				} else {
+					alert("Failed to add review.");
+				}
+			});
+	}, [dispatch, productDetails, user, reviewMessage, reviewValue]);
 
-	const handleDeleteReview = (reviewId) => {
-		dispatch(deleteReview(reviewId));
-		dispatch(getReviews(productDetails?._id));
-	};
+	const handleDeleteReview = useCallback((reviewId) => {
+		dispatch(deleteReview(reviewId)).then(() => dispatch(getReviews(productDetails?._id)));
+	}, [dispatch, productDetails]);
 
 	return (
-		<div className="p-6">
-			{productDetails ? (
-				<>
-					{/* Product Details */}
-					<div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-						<img
-							src={productDetails.image}
-							alt={productDetails.title}
-							className="w-full md:w-1/2 h-96 object-cover rounded-lg shadow-lg"
-						/>
-						<div className="flex-1">
-							<h1 className="text-3xl font-bold mb-4">
-								{productDetails.title}
-							</h1>
-							<p className="text-lg text-gray-700 mb-4">
-								{productDetails.description}
-							</p>
-							<p className="text-2xl font-semibold text-green-600 mb-4">
-								${productDetails.price}
-							</p>
-							<p className="text-sm text-gray-500 mb-6">
-								Stock: {productDetails.stock}
-							</p>
-							<div className="flex items-center gap-4 mb-6">
-								<div className="flex items-center gap-2">
-									<button
-										onClick={() =>
-											setQuantity((prev) =>
-												prev > 1 ? prev - 1 : 1
-											)
-										}
-										className="px-3 py-2 bg-gray-200 rounded-lg"
-									>
-										-
-									</button>
-									<span className="px-4 py-2 bg-gray-100 rounded-lg">
-                                        {quantity}
-                                    </span>
-									<button
-										onClick={() =>
-											setQuantity((prev) => prev < productDetails.stock ? prev + 1 : productDetails.stock)
-										}
-										className="px-3 py-2 bg-gray-200 rounded-lg"
-									>
-										+
-									</button>
-								</div>
-								<button
-									onClick={handleAddToCart}
-									className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-								>
-									Add to Cart
-								</button>
-							</div>
-						</div>
-					</div>
-
-					{/* Reviews Section */}
-					<div>
-						<h2 className="text-2xl font-bold mb-4">Reviews</h2>
-
-						{/* Add Review */}
-						<div className="mb-6">
-                            <textarea
-								value={reviewMessage}
-								onChange={(e) => setReviewMessage(e.target.value)}
-								placeholder="Write your review..."
-								className="w-full p-4 border rounded-lg mb-2"
-								rows="3"
-							></textarea>
+		<div style={styles.centeredContainer}>
+			<Container>
+				<Row className="my-4">
+					<Col md={4} style={styles.imageContainer}>
+						<img src={productDetails?.image} alt={productDetails?.title} className="img-fluid" style={styles.productImage} />
+					</Col>
+					<Col md={6}>
+						<h1>{productDetails?.title}</h1>
+						<p>{productDetails?.description}</p>
+						<h3>${productDetails?.price?.toFixed(2)}</h3>
+						<p>Stock: {productDetails?.stock}</p>
+						<Form>
+							<Form.Group controlId="quantity">
+								<Form.Label>Quantity</Form.Label>
+								<Form.Control type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} min="1" />
+							</Form.Group>
+						</Form>
+						<br />
+						<Button onClick={handleAddToCart} variant="dark">Add to Cart</Button>
+					</Col>
+				</Row>
+				<br />
+				<Row>
+					<Col md={8}>
+                        <textarea
+							value={reviewMessage}
+							onChange={(e) => setReviewMessage(e.target.value)}
+							placeholder="Write your review..."
+							className="w-full p-4 border rounded-lg mb-2"
+							rows="3"
+							style={{ width: "100%", marginLeft: "30px" }}
+						></textarea>
+					</Col>
+					<Col md={3} style={{ marginLeft: "40px" }}>
+						<Row style={{ alignItems: "center" }}>
 							<div className="flex items-center gap-4 mb-4">
-								<label className="text-sm text-gray-700">
+								<label className="text-sm text-gray-700" style={{ marginRight: "10px" }}>
 									Rating:
 								</label>
-								<select
-									value={reviewValue}
-									onChange={(e) =>
-										setReviewValue(Number(e.target.value))
-									}
-									className="p-2 border rounded-lg"
-								>
-									{[1, 2, 3, 4, 5].map((value) => (
-										<option key={value} value={value}>
-											{value}
-										</option>
-									))}
-								</select>
+								{[1, 2, 3, 4, 5].map((star) => (
+									<FaStar
+										key={star}
+										size={24}
+										color={star <= reviewValue ? "#FFD700" : "#e4e5e9"}
+										onClick={() => setReviewValue(star)}
+										style={{ cursor: "pointer" }}
+									/>
+								))}
 							</div>
-							<button
+						</Row>
+						<Row>
+							<Button
 								onClick={handleAddReview}
 								className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
+								variant="dark"
 							>
 								Submit Review
-							</button>
-						</div>
-
-						{/* Display Reviews */}
-						{reviews && reviews.length > 0 ? (
-							reviews.map((review) => (
-								<div
-									key={review._id}
-									className="border rounded-lg p-4 mb-4 relative"
-								>
-									<h3 className="text-lg font-semibold mb-2">
-										{review.username}
-									</h3>
-									<p className="text-gray-600 mb-2">
-										{review.reviewMessage}
-									</p>
-									<p className="text-sm text-gray-500">
-										Rating: {review.reviewValue}/5
-									</p>
-									{/* Show Delete Button for User's Own Reviews */}
-									{user?.id === review.userId && (
-										<button
-											onClick={() =>
-												handleDeleteReview(review._id)
-											}
-											className="absolute top-2 right-2 px-3 py-1 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
-										>
-											Delete
-										</button>
-									)}
-								</div>
-							))
-						) : (
-							<p>No reviews available for this product.</p>
-						)}
-					</div>
-				</>
-			) : (
-				<div className="flex justify-center items-center h-screen">
-					<div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"></div>
-				</div>
-			)}
+							</Button>
+						</Row>
+					</Col>
+				</Row>
+				<Row className="my-4">
+					{reviews?.length ? (
+						reviews.map((review) => (
+							<div key={review._id} className="p-4 border rounded-lg bg-white shadow-md mb-4 relative">
+								<h3 className="text-lg font-semibold text-gray-900 mb-2">{review.username}</h3>
+								<p className="text-gray-700 mb-2 leading-relaxed">{review.reviewMessage}</p>
+								<p className="text-sm text-gray-500">
+									Rating: {[...Array(review.reviewValue)].map((_, i) => (
+									<FaStar key={i} size={16} color="#FFD700" />
+								))}
+								</p>
+								{user?.id === review.userId && (
+									<button onClick={() => handleDeleteReview(review._id)} className="btn btn-danger btn-sm">Delete</button>
+								)}
+							</div>
+						))
+					) : (
+						<p className="text-gray-500" style={styles.noReviews}>No reviews available for this product.</p>
+					)}
+				</Row>
+			</Container>
 		</div>
 	);
 }
 
 export default ShopProduct;
+
+const styles = {
+	centeredContainer: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		minHeight: "100vh",
+	},
+	imageContainer: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		marginLeft: "70px",
+		marginRight: "40px",
+	},
+	productImage: {
+		maxWidth: "100%",
+		maxHeight: "800px",
+		border: "3px solid black",
+		borderRadius: "15px",
+	},
+	noReviews: {
+		marginLeft: "100px",
+	},
+};

@@ -24,6 +24,7 @@ import PayForOrder from "./pages/shop/PayForOrder.jsx";
 import UserOrders from "./pages/shop/UserOrders.jsx";
 import OrderDetails from "./pages/shop/OrderDetails.jsx";
 import NavbarAdmin from "./components/navbar/NavbarAdmin.jsx";
+import NavbarUser from "./components/navbar/NavbarUser.jsx";
 
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
             </Route>
             <Route path="/shop" element={
                 <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-                    <ShopLayout />
+                    <NavbarUser />
                 </CheckAuth>
                 }
             >
